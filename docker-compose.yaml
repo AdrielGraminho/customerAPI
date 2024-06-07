@@ -1,0 +1,47 @@
+version: '3.4'
+
+services:
+  pg02-customer:
+    image: postgres
+    container_name: pg02-customer
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: "cust@mer"
+      POSTGRES_DB: customer_db
+      POSTGRES_USER: customer
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - pg02-customer-volume:/var/lib/postgresql/data
+    networks:
+      - pg02-customer-network
+
+  pg02-customer-pgadmin:
+    image: dpage/pgadmin4
+    container_name: pg02-customer-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "agile@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "cust@mer"
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+    depends_on:
+      - pg02-customer
+    volumes:
+      - pg02-customer-pgadmin-volume:/var/lib/pgadmin
+    networks:
+      - pg02-customer-network
+
+networks:
+  pg02-customer-network:
+    driver: bridge
+
+volumes:
+  pg02-customer-volume:
+    external: false
+  pg02-customer-pgadmin-volume:
+    external: false

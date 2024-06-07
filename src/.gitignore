@@ -1,0 +1,44 @@
+# Maven
+target/
+
+# Gradle
+build/
+.gradle/
+.idea/
+*.iml
+
+# Logs
+*.log
+log/
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# IntelliJ
+*.iws
+*.ipr
+.idea/
+
+# Spring Boot
+spring-boot-starter-parent/
+
+# Compiled class file
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Ignore application properties for local development
+/src/main/resources/application-local.properties
+
+# IDE specific
+.vscode/
+*.code-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
