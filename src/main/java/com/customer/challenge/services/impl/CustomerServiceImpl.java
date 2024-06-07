@@ -24,12 +24,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer saveCustomer(InputCustomer inputCustomer) {
         validCustomerInputToSave(inputCustomer);
+        validCustomerInputCnpjAndCpf(inputCustomer);
         return customerRepository.save(buildCustomer(inputCustomer));
+    }
+
+    private void validCustomerInputCnpjAndCpf(InputCustomer inputCustomer) {
+        if ((Objects.isNull(inputCustomer.getCpf()) || inputCustomer.getCpf().isBlank()) && (Objects.isNull(inputCustomer.getCnpj()) || inputCustomer.getCnpj().isBlank())){
+            throw new InvalidCustomerIdException("Customer CPF or CNPJ must be not provided");
+
+        }
     }
 
     @Override
     public Customer editCustomer(InputCustomer inputCustomer) {
         validCustomerInputToEdit(inputCustomer);
+        validCustomerInputCnpjAndCpf(inputCustomer);
         Customer oldCustomer = findCustomerById(inputCustomer.getIdCustomer());
         Customer newCustomer = buildCustomer(inputCustomer);
         newCustomer.setIdCustomer(oldCustomer.getIdCustomer());
@@ -66,6 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .email(inputCustomer.getEmail())
                 .cpf(inputCustomer.getCpf())
                 .dateOfBirth(inputCustomer.getDateOfBirth())
+                .cnpj(inputCustomer.getCnpj())
                 .build();
     }
 }

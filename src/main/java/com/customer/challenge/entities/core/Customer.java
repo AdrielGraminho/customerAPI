@@ -28,6 +28,9 @@ public class Customer {
     @Column(name = "cpf")
     private String cpf;
 
+    @Column(name = "cnpj")
+    private String cnpj;
+
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 }

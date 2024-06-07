@@ -23,5 +23,7 @@ public class InputCustomer {
 
     private String cpf;
 
+    private String cnpj;
+
     private Date dateOfBirth;
 }
