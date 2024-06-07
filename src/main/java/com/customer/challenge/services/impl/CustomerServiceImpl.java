@@ -5,6 +5,7 @@ import com.customer.challenge.entities.dto.InputCustomer;
 import com.customer.challenge.exceptions.InvalidCustomerIdException;
 import com.customer.challenge.repositories.CustomerRepository;
 import com.customer.challenge.services.CustomerService;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +25,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer saveCustomer(InputCustomer inputCustomer) {
         validCustomerInputToSave(inputCustomer);
-        validCustomerInputCnpjAndCpf(inputCustomer);
+        validateCustomerInputCnpjAndCpf(inputCustomer);
         return customerRepository.save(buildCustomer(inputCustomer));
     }
 
-    private void validCustomerInputCnpjAndCpf(InputCustomer inputCustomer) {
-        if ((Objects.isNull(inputCustomer.getCpf()) || inputCustomer.getCpf().isBlank()) && (Objects.isNull(inputCustomer.getCnpj()) || inputCustomer.getCnpj().isBlank())){
-            throw new InvalidCustomerIdException("Customer CPF or CNPJ must be not provided");
-
+    private void validateCustomerInputCnpjAndCpf(InputCustomer inputCustomer) {
+        if (StringUtils.isBlank(inputCustomer.getCpf()) && StringUtils.isBlank(inputCustomer.getCnpj())) {
+            throw new InvalidCustomerIdException("Customer CPF or CNPJ must be provided");
         }
     }
 
     @Override
     public Customer editCustomer(InputCustomer inputCustomer) {
         validCustomerInputToEdit(inputCustomer);
-        validCustomerInputCnpjAndCpf(inputCustomer);
+        validateCustomerInputCnpjAndCpf(inputCustomer);
         Customer oldCustomer = findCustomerById(inputCustomer.getIdCustomer());
         Customer newCustomer = buildCustomer(inputCustomer);
         newCustomer.setIdCustomer(oldCustomer.getIdCustomer());

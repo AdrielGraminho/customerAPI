@@ -142,4 +142,22 @@ public class CustomerServiceImplTest {
 
     }
 
+    @Test
+    public void shouldCallRepositoryAndReturnExceptionWhenSaveCustomerAndCpfAndCnpjAreNull(){
+
+        inputCustomer.setCnpj(null);
+        inputCustomer.setCpf(null);
+        inputCustomer.setIdCustomer(null);
+
+        String message = "";
+        try {
+            customerService.saveCustomer(inputCustomer);
+        } catch (InvalidCustomerIdException invalidCustomerIdException){
+            message = invalidCustomerIdException.getMessage();
+        }
+
+        assertEquals("Customer CPF or CNPJ must be provided", message);
+
+    }
+
 }
