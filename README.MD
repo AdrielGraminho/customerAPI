@@ -1,4 +1,6 @@
-Java version required: 17
+Requirements:
+
+Java version 17
 
 Maven
 
@@ -6,6 +8,7 @@ Docker
 
 Docker Compose
 
+##
 To run postgresql:
 
 docker compose up -d
